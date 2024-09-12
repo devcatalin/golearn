@@ -1,0 +1,21 @@
+kind: TestWorkflow
+apiVersion: testworkflows.testkube.io/v1
+metadata:
+  name: gotest
+  namespace: testkube
+spec:
+  content:
+    git:
+      uri: https://github.com/devcatalin/golearn
+      revision: main
+  container:
+    workingDir: /data/repo
+    image: golang:1.20-alpine3.18
+  steps:
+    - name: Run test
+      shell: apk add --no-cache make && make setup && make test-report
+    - name: Saving artifacts
+      condition: always
+      artifacts:
+        paths:
+        - artifacts/**

@@ -4,4 +4,4 @@ setup:
 test-report:
 	rm -rf artifacts
 	mkdir artifacts
-	go test -v 2>&1 ./... | go-junit-report -set-exit-code > artifacts/report.xml
+	go test -v 2>&1 ./... | go-junit-report -iocopy -set-exit-code -out artifacts/report.xml
