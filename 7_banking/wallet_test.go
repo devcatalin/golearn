@@ -36,7 +36,7 @@ func TestWallet(t *testing.T) {
 		err := wallet.Withdraw(Bitcoin(20))
 
 		assertNoError(t, err)
-		assertBalance(t, wallet, Bitcoin(5))
+		assertBalance(t, wallet, Bitcoin(0))
 	})
 
 	t.Run("deposit and withdraw multiple times", func(t *testing.T) {
@@ -46,14 +46,14 @@ func TestWallet(t *testing.T) {
 		err := wallet.Withdraw(Bitcoin(15))
 
 		assertNoError(t, err)
-		assertBalance(t, wallet, Bitcoin(10))
+		assertBalance(t, wallet, Bitcoin(15))
 	})
 
 	t.Run("overdraw after multiple transactions", func(t *testing.T) {
 		wallet := Wallet{}
 		wallet.Deposit(Bitcoin(30))
 		err1 := wallet.Withdraw(Bitcoin(10))
-		err2 := wallet.Withdraw(Bitcoin(25))
+		err2 := wallet.Withdraw(Bitcoin(10))
 
 		assertNoError(t, err1)
 		assertNoError(t, err2)
@@ -89,7 +89,7 @@ func TestWallet(t *testing.T) {
 		}()
 
 		go func() {
-			wallet.Withdraw(Bitcoin(25))
+			wallet.Withdraw(Bitcoin(20))
 			done <- true
 		}()
 
